@@ -12,11 +12,10 @@ typedef struct {
     int nomtaille;
     float coefficient;
     float moyenne;
-    int taille;
-    int capacite;
     Grades *notes;
 }Course;
 
 Course constructeurCourse();
+void destructeurCourse(Course *course);
 
 #endif

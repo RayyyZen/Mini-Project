@@ -14,5 +14,6 @@ typedef struct {
 }Grades;
 
 Grades constructeurGrades();
+void destructeurGrades(Grades *grades);
 
 #endif

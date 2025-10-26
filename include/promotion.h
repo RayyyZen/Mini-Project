@@ -14,5 +14,6 @@ typedef struct {
 }Class;
 
 Class constructeurClass();
+void destructeurClass(Class *class);
 
 #endif

@@ -16,5 +16,6 @@ typedef struct arbre {
 typedef Arbre* pArbre;
 
 pArbre constructeurArbre();
+pArbre destructeurArbre();
 
 #endif

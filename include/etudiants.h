@@ -21,5 +21,6 @@ typedef struct {
 }Student;
 
 Student constructeurStudent();
+void destructeurStudent(Student *student);
 
 #endif
