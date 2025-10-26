@@ -9,13 +9,18 @@
 */
 typedef struct arbre {
     Student *etu;
-    arbre *fg;
-    arbre *fd;
+    struct arbre *fg;
+    struct arbre *fd;
 }Arbre;
 
 typedef Arbre* pArbre;
 
-pArbre constructeurArbre();
+pArbre creerArbre(Student *etu);
+void afficher(pArbre a);
+pArbre ajoutNoeud(pArbre a, Student *etu);
+Student* rechercheNoeud(pArbre a, int id);
+void supprimerFilsGauche(pArbre a);
+void supprimerFilsDroit(pArbre a);
 pArbre destructeurArbre();
 
 #endif

@@ -9,11 +9,11 @@
 */
 typedef struct {
     int id;
-    char *prenom;
-    int prenomtaille;
-    char *nom;
-    int nomtaille;
     int age;
+    char *prenom;
+    char *nom;
+    int prenomtaille;
+    int nomtaille;
     int taille;
     int capacite;
     Course *matieres;

@@ -9,8 +9,6 @@ TARGET = Mini-Projet
 
 all: $(TARGET)
 
-documentation : 
-	doxygen Doxyfile
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) $(LIBS)
@@ -23,5 +21,5 @@ clean:
 	rm -f $(OBJS)
 	rm -f $(TARGET)
 
-run: all documentation
+run: all 
 	./$(TARGET)

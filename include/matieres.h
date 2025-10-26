@@ -12,7 +12,7 @@ typedef struct {
     int nomtaille;
     float coefficient;
     float moyenne;
-    Grades *notes;
+    Grades notes;
 }Course;
 
 Course constructeurCourse();

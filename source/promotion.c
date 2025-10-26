@@ -8,13 +8,13 @@ Class constructeurClass(){
     return class;
 }
 
-void constructeurClass(Class *class){
+void destructeurClass(Class *class){
     int i=0;
     for(i=0;i<class->taille;i++){
-        destructeurStudent(&class->student[i]);
+        destructeurStudent(&class->etudiants[i]);
     }
-    free(class->student);
-    class->student=NULL;
+    free(class->etudiants);
+    class->etudiants=NULL;
     class->taille=0;
     class->capacite=0;
     free(class);
