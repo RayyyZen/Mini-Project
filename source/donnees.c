@@ -69,8 +69,8 @@ void ajoutNote(Class *class, Student *totalmatieres, pArbre a, char *ligne){
     if(class==NULL){
         exit(0);
     }
-    int id=0,indice=0,i=0,verif=0;
-    float note=0;
+    int id=0,indice=0,i=0,verif=0,k=0;
+    float note=0,somme=0,scoeff=0;
     char nom[50];
     sscanf(ligne, "%d;%[^;];%f", &id,nom,&note);
     Student *etu = rechercheNoeud(a,id);
@@ -96,8 +96,12 @@ void ajoutNote(Class *class, Student *totalmatieres, pArbre a, char *ligne){
                 etu->matieres[etu->taille].notes.taille++;
             }
         }
-        etu->moyenne = (etu->moyenne*etu->taille+note)/(etu->taille+1);
         etu->taille++;
+        for(k=0;k<etu->taille;k++){
+            somme += etu->matieres[k].moyenne*etu->matieres[k].coefficient;
+            scoeff += etu->matieres[k].coefficient;
+        }
+        etu->moyenne = somme/scoeff;
     }
     else{
         for(i=0;i<etu->taille;i++){
@@ -127,12 +131,15 @@ void ajoutNote(Class *class, Student *totalmatieres, pArbre a, char *ligne){
                     etu->matieres[etu->taille].notes.taille++;
                 }
             }
-            etu->moyenne = (etu->moyenne*etu->taille+note)/(etu->taille+1);
             etu->taille++;
+            for(k=0;k<etu->taille;k++){
+                somme += etu->matieres[k].moyenne*etu->matieres[k].coefficient;
+                scoeff += etu->matieres[k].coefficient;
+            }
+            etu->moyenne = somme/scoeff;
         }
         else{
-            int ancienne = etu->matieres[indice].moyenne;
-            etu->matieres[indice].moyenne=(etu->matieres[indice].moyenne*etu->taille+note)/(etu->taille+1);
+            etu->matieres[indice].moyenne=((etu->matieres[indice].moyenne*etu->matieres[indice].notes.taille)+note)/(etu->matieres[indice].notes.taille+1);
             if(etu->matieres[indice].notes.capacite == 0){
                 etu->matieres[indice].notes.valeurs = malloc(sizeof(float));
                 etu->matieres[indice].notes.capacite = 1;
@@ -149,7 +156,11 @@ void ajoutNote(Class *class, Student *totalmatieres, pArbre a, char *ligne){
                 etu->matieres[indice].notes.valeurs[etu->matieres[indice].notes.taille] = note;
                 etu->matieres[indice].notes.taille++;
             }
-            etu->moyenne = (etu->moyenne*etu->taille+etu->matieres[indice].moyenne-ancienne)/etu->taille;
+            for(k=0;k<etu->taille;k++){
+                somme += etu->matieres[k].moyenne*etu->matieres[k].coefficient;
+                scoeff += etu->matieres[k].coefficient;
+            }
+            etu->moyenne = somme/scoeff;
         }
     }
 }
@@ -159,6 +170,7 @@ void stockageDonnees(Class *class, char *chemin){
     FILE *fichier = fopen(chemin,"r");
     char ligne[100];
     char *verif=NULL;
+    int i=0,j=0;
     if(fichier==NULL){
         exit(1);
     }
@@ -167,6 +179,7 @@ void stockageDonnees(Class *class, char *chemin){
         exit(0);
     }
     *totalmatieres = constructeurStudent();
+
     do{
         verif=fgets(ligne,sizeof(ligne),fichier);
     }while(verif!=NULL && strcmp(ligne,"ETUDIANTS\n")!=0);
@@ -175,11 +188,15 @@ void stockageDonnees(Class *class, char *chemin){
     while(fgets(ligne,sizeof(ligne),fichier)!=NULL && ligne[0]!='\n'){
         ajoutEtudiant(class,ligne);
     }
+    class->etudiants = (Student*) realloc(class->etudiants,class->taille*sizeof(Student));
+    class->capacite = class->taille;
+    if(class->etudiants == NULL){
+        exit(0);
+    }
 
     for(int i=0;i<class->taille;i++){
         a=ajoutNoeud(a,&class->etudiants[i]);
     }
-
     do{
         verif=fgets(ligne,sizeof(ligne),fichier);
     }while(verif!=NULL && strcmp(ligne,"MATIERES\n")!=0);
@@ -188,15 +205,24 @@ void stockageDonnees(Class *class, char *chemin){
     while(fgets(ligne,sizeof(ligne),fichier)!=NULL && ligne[0]!='\n'){
         ajoutMatiere(totalmatieres,ligne);
     }
+    totalmatieres->matieres = (Course*) realloc(totalmatieres->matieres,totalmatieres->taille*sizeof(Course));
+    totalmatieres->capacite = totalmatieres->taille;
 
     do{
         verif=fgets(ligne,sizeof(ligne),fichier);
     }while(verif!=NULL && strcmp(ligne,"NOTES\n")!=0);
     fgets(ligne,sizeof(ligne),fichier);
-    
     while(fgets(ligne,sizeof(ligne),fichier)!=NULL && ligne[0]!='\n'){
-        printf("%s",ligne);
         ajoutNote(class,totalmatieres,a,ligne);
     }
+    for(i=0;i<class->taille;i++){
+        class->etudiants[i].matieres = (Course*) realloc(class->etudiants[i].matieres,class->etudiants[i].taille*sizeof(Course));
+        class->etudiants[i].capacite=class->etudiants[i].taille;
+        for(j=0;j<class->etudiants[i].taille;j++){
+            class->etudiants[i].matieres[j].notes.valeurs = (float*) realloc(class->etudiants[i].matieres[j].notes.valeurs,class->etudiants[i].matieres[j].notes.taille*sizeof(float));
+            class->etudiants[i].matieres[j].notes.capacite=class->etudiants[i].matieres[j].notes.taille;
+        }
+    }
+
     fclose(fichier);
 }
