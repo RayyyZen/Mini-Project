@@ -1,7 +1,7 @@
-#ifndef MATIERES_H
-#define MATIERES_H
+#ifndef COURSES_H
+#define COURSES_H
 
-#include "notes.h"
+#include "grades.h"
 
 /**
     \struct Course

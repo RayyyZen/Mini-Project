@@ -1,4 +1,4 @@
-#include "tri.h"
+#include "sort.h"
 
 Student* meilleuresMoyennes(Class *class, int *taille){
     if(class==NULL || taille==NULL){

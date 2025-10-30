@@ -1,12 +1,12 @@
-#include "fichiers.h"
+#include "files.h"
 
 void sauvegarder(Class *class){
     FILE *promotion=NULL,*etudiants=NULL,*matieres=NULL,*notes=NULL;
     int i=0,j=0;
-    promotion = fopen("Data/promotion.bin","wb");
-    etudiants = fopen("Data/etudiants.bin","wb");
-    matieres = fopen("Data/matieres.bin","wb");
-    notes = fopen("Data/notes.bin","wb");
+    promotion = fopen("Data/class.bin","wb");
+    etudiants = fopen("Data/students.bin","wb");
+    matieres = fopen("Data/courses.bin","wb");
+    notes = fopen("Data/grades.bin","wb");
     if(promotion == NULL || etudiants == NULL || matieres == NULL || notes == NULL){
         exit(2);
     }
@@ -48,10 +48,10 @@ void sauvegarder(Class *class){
 void restaurer(Class *class){
     FILE *promotion=NULL,*etudiants=NULL,*matieres=NULL,*notes=NULL;
     int i=0,j=0;
-    promotion = fopen("Data/promotion.bin","rb");
-    etudiants = fopen("Data/etudiants.bin","rb");
-    matieres = fopen("Data/matieres.bin","rb");
-    notes = fopen("Data/notes.bin","rb");
+    promotion = fopen("Data/class.bin","rb");
+    etudiants = fopen("Data/students.bin","rb");
+    matieres = fopen("Data/courses.bin","rb");
+    notes = fopen("Data/grades.bin","rb");
     if(promotion == NULL || etudiants == NULL || matieres == NULL || notes == NULL){
         exit(2);
     }

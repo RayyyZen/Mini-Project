@@ -1,7 +1,7 @@
-#ifndef FICHIERS_H
-#define FICHIERS_H
+#ifndef FILES_H
+#define FILES_H
 
-#include "donnees.h"
+#include "data.h"
 
 void sauvegarder(Class *class);
 void restaurer(Class *class);

@@ -1,7 +1,7 @@
-#ifndef DONNEES_H
-#define DONNEES_H
+#ifndef DATA_H
+#define DATA_H
 
-#include "promotion.h"
+#include "class.h"
 
 void ajoutEtudiant(Class *class, char *ligne);
 void ajoutMatiere(Student *student, char *ligne);

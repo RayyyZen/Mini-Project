@@ -1,4 +1,4 @@
-#include "matieres.h"
+#include "courses.h"
 
 Course constructeurCourse(){
     Course course;

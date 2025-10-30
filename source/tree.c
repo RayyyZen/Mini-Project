@@ -1,4 +1,4 @@
-#include "arbre.h"
+#include "tree.h"
 
 pArbre creerArbre(Student *etu){
     pArbre a=malloc(sizeof(Arbre));

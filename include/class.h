@@ -1,7 +1,7 @@
-#ifndef PROMOTION_H
-#define PROMOTION_H
+#ifndef CLASS_H
+#define CLASS_H
 
-#include "arbre.h"
+#include "tree.h"
 
 /**
     \struct Class

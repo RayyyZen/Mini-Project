@@ -1,7 +1,7 @@
-#ifndef ETUDIANTS_H
-#define ETUDIANTS_H
+#ifndef STUDENTS_H
+#define STUDENTS_H
 
-#include "matieres.h"
+#include "courses.h"
 
 /**
     \struct Student

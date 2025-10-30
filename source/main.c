@@ -1,4 +1,4 @@
-#include "tri.h"
+#include "sort.h"
 
 int main(){
     Class class=constructeurClass();

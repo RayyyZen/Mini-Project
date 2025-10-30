@@ -1,4 +1,4 @@
-#include "promotion.h"
+#include "class.h"
 
 Class constructeurClass(){
     Class class;

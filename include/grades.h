@@ -1,5 +1,5 @@
-#ifndef NOTES_H
-#define NOTES_H
+#ifndef GRADES_H
+#define GRADES_H
 
 #include "library.h"
 

@@ -1,4 +1,4 @@
-#include "notes.h"
+#include "grades.h"
 
 Grades constructeurGrades(){
     Grades grades;

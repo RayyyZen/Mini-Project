@@ -1,4 +1,4 @@
-#include "affichage.h"
+#include "display.h"
 
 void affichePromotion(Class class){
     int i=0,j=0,k=0;
