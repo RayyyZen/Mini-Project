@@ -1,11 +1,11 @@
 CC = gcc
-CFLAGS = -Wall -Wextra 
+CFLAGS = -Wall -Wextra -Werror
 SRCDIR = source
 INCDIR = include
 
 SRCS = $(wildcard $(SRCDIR)/*.c)
 OBJS = $(SRCS:$(SRCDIR)/%.c=%.o)
-TARGET = Mini-Projet
+TARGET = Mini-Project
 
 all: $(TARGET)
 

@@ -3,6 +3,7 @@
 int main(){
     Class class=buildClass();
     int size=0,verif=0,choice=-1,check=checkFile("Data/class.bin"),save=1;
+    int i=0,j=0;
     Student *array=NULL;
     char coursename[50];
 
@@ -53,6 +54,7 @@ int main(){
             array=bestAverages(&class,&size);
             printf("Les %d étudiants avec la meilleure moyenne de la promotion : \n\n",size);
             displayStudents(array,size,NULL);
+            free(array);
         }
         else if(choice==3){
             do{
@@ -69,11 +71,22 @@ int main(){
             }while(array==NULL);
             printf("Les %d étudiants avec la meilleure moyenne de la promotion en %s : \n\n",size,coursename);
             displayStudents(array,size,coursename);
+            free(array);
         }
 
         if(save!=0){
             saveData(&class);
             //La sauvegarde détruit toutes les données de la variable class c'est pour cela que je la mets à la fin
+        }
+        else{//Si c'est une restauration qui a été effectuée
+            for(i=0;i<class.size;i++){
+                for(j=0;j<class.students[i].size;j++){
+                    destroyGrades(&class.students[i].courses[j].grades);
+                }
+                class.students[i].courses=destroyCourse(class.students[i].courses);
+            }
+            class.students=destroyStudent(class.students);
+            destroyClass(&class);
         }
     }
 
