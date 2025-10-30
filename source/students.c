@@ -1,36 +1,38 @@
 #include "students.h"
 
-Student constructeurStudent(){
+/**
+    @brief Fonction constructeur de la structure Student (étudiant)
+    @return Retourne la variable de type Student construite
+*/
+Student buildStudent(){
     Student student;
     student.id=0;
-    student.prenom=NULL;
-    student.nomtaille=0;
-    student.nom=NULL;
+    student.fname=NULL;
+    student.sizefname=0;
+    student.lname=NULL;
+    student.sizelname=0;
     student.age=0;
-    student.taille=0;
-    student.capacite=0;
-    student.matieres=NULL;
-    student.moyenne=0;
+    student.size=0;
+    student.capacity=0;
+    student.courses=NULL;
+    student.average=0;
     return student;
 }
 
-void destructeurStudent(Student *student){
-    int i=0;
+/**
+    @brief Fonction destructeur de la structure Student (étudiant)
+    @param class Un pointeur de type Student* qui pointe vers l'étudiant à détruire
+    @return Un pointeur sur la variable détruite
+*/
+Student* destroyStudent(Student* student){
     student->id=0;
-    free(student->prenom);
-    student->prenom=NULL;
-    student->nomtaille=0;
-    free(student->nom);
-    student->nom=NULL;
+    student->sizefname=0;
+    student->sizelname=0;
     student->age=0;
-    for(i=0;i<student->taille;i++){
-        destructeurCourse(&student->matieres[i]);
-    }
-    student->taille=0;
-    student->capacite=0;
-    free(student->matieres);
-    student->matieres=NULL;
-    student->moyenne=0;
+    student->size=0;
+    student->capacity=0;
+    student->average=0;
     free(student);
     student=NULL;
+    return student;
 }

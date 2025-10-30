@@ -8,14 +8,14 @@
     \brief Structure contenant le nom, le coefficient et la moyenne d'une matière, ainsi que les notes d'un étudiant dans cette dernière
 */
 typedef struct {
-    char *nom;
-    int nomtaille;
+    char *name;
+    int sizename;
     float coefficient;
-    float moyenne;
-    Grades notes;
+    float average;
+    Grades grades;
 }Course;
 
-Course constructeurCourse();
-void destructeurCourse(Course *course);
+Course buildCourse();
+Course* destroyCourse(Course* course);
 
 #endif

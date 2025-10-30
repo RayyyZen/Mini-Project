@@ -8,12 +8,12 @@
     \brief Structure contenant l'ensemble des informations sur les étudiants d'une promotion, ainsi que leur nombre
 */
 typedef struct {
-    int taille;
-    int capacite;
-    Student *etudiants;
+    int size;
+    int capacity;//Sert à reallouer le tableau d'étudiants si besoin
+    Student *students;
 }Class;
 
-Class constructeurClass();
-void destructeurClass(Class *class);
+Class buildClass();
+void destroyClass(Class* class);
 
 #endif

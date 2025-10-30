@@ -5,22 +5,22 @@
 
 /**
     \struct Student
-    \brief Structure contenant les informations clées d'un etudiant
+    \brief Structure contenant les informations clées d'un étudiant de la promotion
 */
 typedef struct {
     int id;
     int age;
-    char *prenom;
-    char *nom;
-    int prenomtaille;
-    int nomtaille;
-    int taille;
-    int capacite;
-    Course *matieres;
-    float moyenne;
+    char *fname;//first name
+    char *lname;//last name
+    int sizefname;
+    int sizelname;
+    int size;
+    int capacity;//Sert à reallouer le tableau de matières si besoin
+    Course *courses;
+    float average;
 }Student;
 
-Student constructeurStudent();
-void destructeurStudent(Student *student);
+Student buildStudent();
+Student* destroyStudent(Student* student);
 
 #endif

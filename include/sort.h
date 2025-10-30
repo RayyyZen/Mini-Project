@@ -3,7 +3,7 @@
 
 #include "display.h"
 
-Student* meilleuresMoyennes(Class *class, int *taille);
-Student* moyennesMatieres(Class *class, char *matierenom, int *taille);
+Student* bestAverages(Class* class, int* size);
+Student* bestCourseAverages(Class* class, char* coursename, int* size);
 
 #endif

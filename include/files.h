@@ -3,7 +3,8 @@
 
 #include "data.h"
 
-void sauvegarder(Class *class);
-void restaurer(Class *class);
+void saveData(Class* class);
+void recoverData(Class* class);
+int checkFile(char *path);
 
 #endif

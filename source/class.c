@@ -1,22 +1,22 @@
 #include "class.h"
 
-Class constructeurClass(){
+/**
+    @brief Fonction constructeur de la structure Class (promotion)
+    @return Retourne la variable de type Class construite
+*/
+Class buildClass(){
     Class class;
-    class.taille=0;
-    class.capacite=0;
-    class.etudiants=NULL;
+    class.size=0;
+    class.capacity=0;
+    class.students=NULL;
     return class;
 }
 
-void destructeurClass(Class *class){
-    int i=0;
-    for(i=0;i<class->taille;i++){
-        destructeurStudent(&class->etudiants[i]);
-    }
-    free(class->etudiants);
-    class->etudiants=NULL;
-    class->taille=0;
-    class->capacite=0;
-    free(class);
-    class=NULL;
+/**
+    @brief Fonction destructeur de la structure Class (promotion)
+    @param class Un pointeur de type Class* qui pointe vers la promotion à détruire
+*/
+void destroyClass(Class* class){
+    class->size=0;
+    class->capacity=0;
 }

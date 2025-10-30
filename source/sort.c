@@ -1,122 +1,140 @@
 #include "sort.h"
 
-Student* meilleuresMoyennes(Class *class, int *taille){
-    if(class==NULL || taille==NULL){
+/**
+    @brief Fonction qui retourne un tableau des 10 étudiants avec la meilleure moyenne de la promotion
+    @param class La promotion d'étudiants
+    @param size Un pointeur sur la taille du tableau qu'on va créer
+    @return Le tableau d'étudiants crée
+*/
+Student* bestAverages(Class* class, int* size){
+    if(class==NULL || size==NULL){
         exit(0);
     }
-    *taille=10;
-    if(class->taille<=10){
-        *taille = class->taille;
+    *size=10;
+    if(class->size<=10){
+        *size = class->size;
     }
-    Student *tab=malloc((*taille)*sizeof(Student));
-    if(tab==NULL){
+    Student *array=malloc((*size)*sizeof(Student));
+    if(array==NULL){
         exit(0);
     }
-    int i=0,j=0,indice=0;
+    int i=0,j=0,index=0;
     float min=0;
-    for(i=0;i<(*taille);i++){
-        tab[i] = class->etudiants[i];
+    for(i=0;i<(*size);i++){
+        array[i] = class->students[i];
     }
-    if(class->taille>10){
-        for(i=10;i<class->taille;i++){
-            min=tab[0].moyenne;
-            indice=0;
-            for(j=1;j<(*taille);j++){
-                if(tab[j].moyenne<min){
-                    min=tab[j].moyenne;
-                    indice=j;
+    if(class->size>10){
+        for(i=10;i<class->size;i++){
+            min=array[0].average;
+            index=0;
+            for(j=1;j<(*size);j++){//Recherche de la plus petite moyenne du tableau "array"
+                if(array[j].average<min){
+                    min=array[j].average;
+                    index=j;
                 }
             }
-            if(class->etudiants[i].moyenne>tab[indice].moyenne){
-                tab[indice]=class->etudiants[i];
+            if(class->students[i].average>array[index].average){
+                array[index]=class->students[i];
             }
         }
     }
+
     Student tmp;
-    for(i=0;i<(*taille)-1;i++){
-        for(j=i+1;j<(*taille);j++){
-            if(tab[i].moyenne<tab[j].moyenne){
-                tmp=tab[i];
-                tab[i]=tab[j];
-                tab[j]=tmp;
+    for(i=0;i<(*size)-1;i++){
+        for(j=i+1;j<(*size);j++){
+            if(array[i].average<array[j].average){
+                tmp=array[i];
+                array[i]=array[j];
+                array[j]=tmp;
             }
         }
     }
-    return tab;
+    //Tri décroissant en fonction de la moyenne des étudiants
+
+    return array;
 }
 
-Student* moyennesMatieres(Class *class, char *matierenom, int *taille){
-    if(class==NULL || matierenom==NULL || taille==NULL){
+/**
+    @brief Fonction qui retourne un tableau des 3 étudiants avec la meilleure moyenne de la promotion dans une certaine matière
+    @param class La promotion d'étudiants
+    @param coursename Le nom d'une matière
+    @param size Un pointeur sur la taille du tableau qu'on va créer
+    @return Le tableau d'étudiants crée
+*/
+Student* bestCourseAverages(Class* class, char* coursename, int* size){
+    if(class==NULL || coursename==NULL || size==NULL){
         exit(0);
     }
-    int i=0,j=0,k=0,r=0,compteur=0,verif=0,indice=0;
+    int i=0,j=0,k=0,r=0,counter=0,verif=0,index=0;
     float min=0;
-    Student *tab=NULL;
-    *taille=0;
-    for(i=0;i<class->taille;i++){
-        for(j=0;j<class->etudiants[i].taille;j++){
+    Student *array=NULL;
+    *size=0;
+    for(i=0;i<class->size;i++){
+        for(j=0;j<class->students[i].size;j++){
             verif=0;
-            if(strcmp(matierenom,class->etudiants[i].matieres[j].nom)==0){
-                compteur++;
+            if(strcmp(coursename,class->students[i].courses[j].name)==0){
+                counter++;
                 verif=1;
             }
-            if(compteur>=1 && compteur<=3){
-                if(compteur==1){
-                    tab=malloc(sizeof(Student));
+            if(counter>=1 && counter<=3){
+                if(counter==1){
+                    array=malloc(sizeof(Student));
                 }
                 else{
-                    tab=(Student*) realloc(tab,compteur*sizeof(Student));
+                    array=(Student*) realloc(array,counter*sizeof(Student));
                 }
-                if(tab==NULL){
+                if(array==NULL){
                     exit(0);
                 }
-                tab[compteur-1]=class->etudiants[i];
-                *taille=compteur;
+                array[counter-1]=class->students[i];
+                *size=counter;
             }
-            else if(verif==1){//compteur>=4
-                indice=0;
-                for(r=0;r<tab[0].taille;r++){
-                    if(strcmp(tab[0].matieres[r].nom,matierenom)==0){
-                        min=tab[0].matieres[r].moyenne;
+            else if(verif==1){//counter>=4
+                index=0;
+                for(r=0;r<array[0].size;r++){
+                    if(strcmp(array[0].courses[r].name,coursename)==0){
+                        min=array[0].courses[r].average;
                     }
                 }
-                for(k=1;k<(*taille);k++){
-                    for(r=0;r<tab[k].taille;r++){
-                        if(strcmp(tab[k].matieres[r].nom,matierenom)==0){
-                            if(tab[k].matieres[r].moyenne < min){
-                                indice=k;
-                                min=tab[k].matieres[r].moyenne;
+                for(k=1;k<(*size);k++){//Recherche de la plus petite moyenne de la matière "coursename" dans le tableau "array"
+                    for(r=0;r<array[k].size;r++){
+                        if(strcmp(array[k].courses[r].name,coursename)==0){
+                            if(array[k].courses[r].average < min){
+                                index=k;
+                                min=array[k].courses[r].average;
                             }
                         }
                     }
                 }
-                if(class->etudiants[i].matieres[j].moyenne>min){
-                    tab[indice]=class->etudiants[i];
+                if(class->students[i].courses[j].average>min){
+                    array[index]=class->students[i];
                 }
-            }
-        }
-    }
-    Student tmp;
-    float val1=0,val2=0;
-    for(i=0;i<(*taille)-1;i++){
-        for(j=i+1;j<(*taille);j++){
-            for(r=0;r<tab[i].taille;r++){
-                if(strcmp(tab[i].matieres[r].nom,matierenom)==0){
-                    val1=tab[i].matieres[r].moyenne;
-                }
-            }
-            for(r=0;r<tab[j].taille;r++){
-                if(strcmp(tab[j].matieres[r].nom,matierenom)==0){
-                    val2=tab[j].matieres[r].moyenne;
-                }
-            }
-            if(val1<val2){
-                tmp=tab[i];
-                tab[i]=tab[j];
-                tab[j]=tmp;
             }
         }
     }
 
-    return tab;
+    Student tmp;
+    float val1=0,val2=0;
+    for(i=0;i<(*size)-1;i++){
+        for(j=i+1;j<(*size);j++){
+            for(r=0;r<array[i].size;r++){
+                if(strcmp(array[i].courses[r].name,coursename)==0){
+                    val1=array[i].courses[r].average;
+                }
+            }
+            for(r=0;r<array[j].size;r++){
+                if(strcmp(array[j].courses[r].name,coursename)==0){
+                    val2=array[j].courses[r].average;
+                }
+            }
+            if(val1<val2){
+                tmp=array[i];
+                array[i]=array[j];
+                array[j]=tmp;
+            }
+        }
+    }
+    //Tri décroissant en fonction de la moyenne des étudiants dans la matière
+
+    return array;
 }

@@ -3,9 +3,9 @@
 
 #include "class.h"
 
-void ajoutEtudiant(Class *class, char *ligne);
-void ajoutMatiere(Student *student, char *ligne);
-void ajoutNote(Class *class, Student *totalmatieres, pArbre a, char *ligne);
-void stockageDonnees(Class *class, char *chemin);
+void addStudent(Class* class, char* line);
+void addCourse(Student* student, char* line);
+void addGrade(Class* class, Student* allcourses, pTree tree, char* line);
+void dataStorage(Class* class, char* path);
 
 #endif

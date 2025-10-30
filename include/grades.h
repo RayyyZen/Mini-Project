@@ -8,12 +8,12 @@
     \brief Structure contenant plusieurs notes d'un étudiant dans une matière
 */
 typedef struct {
-    int taille;
-    int capacite;
-    float *valeurs;
+    int size;
+    int capacity;//Sert à reallouer le tableau de valeurs si besoin
+    float *values;
 }Grades;
 
-Grades constructeurGrades();
-void destructeurGrades(Grades *grades);
+Grades buildGrades();
+void destroyGrades(Grades* grades);
 
 #endif

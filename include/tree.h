@@ -4,23 +4,23 @@
 #include "students.h"
 
 /**
-    \struct Arbre
-    \brief Structure contenant un arbre binaire permettant le stockage des étudiants afin d'optimiser la recherche
+    \struct Tree
+    \brief Structure contenant un arbre binaire de recherche permettant le stockage des étudiants afin d'optimiser la recherche de ces derniers lors de l'ajout de notes
 */
-typedef struct arbre {
-    Student *etu;
-    struct arbre *fg;
-    struct arbre *fd;
-}Arbre;
+typedef struct tree {
+    Student *std;
+    struct tree *left;
+    struct tree *right;
+}Tree;
 
-typedef Arbre* pArbre;
+typedef Tree* pTree;
 
-pArbre creerArbre(Student *etu);
-void afficher(pArbre a);
-pArbre ajoutNoeud(pArbre a, Student *etu);
-Student* rechercheNoeud(pArbre a, int id);
-void supprimerFilsGauche(pArbre a);
-void supprimerFilsDroit(pArbre a);
-pArbre destructeurArbre();
+pTree createTree(Student* std);
+void display(pTree tree);
+pTree addNode(pTree tree, Student* std);
+Student* researchNode(pTree a, int id);
+void deleteLeft(pTree tree);
+void deleteRight(pTree tree);
+pTree destroyTree(pTree tree);
 
 #endif

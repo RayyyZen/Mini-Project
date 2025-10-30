@@ -3,7 +3,7 @@
 
 #include "files.h"
 
-void affichePromotion(Class class);
-void afficheEtudiants(Student *tab, int taille, char *matierenom);
+void displayClass(Class class);
+void displayStudents(Student* array, int size, char* coursename);
 
 #endif
