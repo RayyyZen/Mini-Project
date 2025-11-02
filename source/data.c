@@ -43,7 +43,7 @@ void addStudent(Class* class, char* line){
 
 /**
     @brief Fonction qui ajoute une matière depuis une ligne d'un fichier
-    @param class Un pointeur vers un étudiant à qui on va mettre toutes les matières du fichier pour en garder une trace sur les coefficients
+    @param student Un pointeur vers un étudiant à qui on va mettre toutes les matières du fichier pour en garder une trace sur les coefficients
     @param line Une chaine de caractères contenant une ligne du fichier à traiter
 */
 void addCourse(Student* student, char* line){
@@ -82,6 +82,7 @@ void addCourse(Student* student, char* line){
     @brief Fonction qui ajoute une note depuis une ligne d'un fichier
     @param class Un pointeur vers la promotion d'étudiants
     @param allcourses Un pointeur vers un étudiant qui contient toutes les matières listées dans le fichier
+    @param tree Un arbre binaire de recherche contenant les adresses des étudiants de la promotion
     @param line Une chaine de caractères contenant une ligne du fichier à traiter
 */
 void addGrade(Class* class, Student* allcourses, pTree tree, char* line){

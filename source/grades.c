@@ -14,7 +14,7 @@ Grades buildGrades(){
 
 /**
     @brief Fonction destructeur de la structure Grades (notes)
-    @param class Un pointeur de type Grades* qui pointe vers les notes à détruire
+    @param grades Un pointeur de type Grades* qui pointe vers les notes à détruire
 */
 void destroyGrades(Grades* grades){
     free(grades->values);

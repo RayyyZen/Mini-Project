@@ -21,7 +21,7 @@ Student buildStudent(){
 
 /**
     @brief Fonction destructeur de la structure Student (étudiant)
-    @param class Un pointeur de type Student* qui pointe vers l'étudiant à détruire
+    @param student Un pointeur de type Student* qui pointe vers l'étudiant à détruire
     @return Un pointeur sur la variable détruite
 */
 Student* destroyStudent(Student* student){

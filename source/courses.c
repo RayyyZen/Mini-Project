@@ -16,7 +16,7 @@ Course buildCourse(){
 
 /**
     @brief Fonction destructeur de la structure Course (matière)
-    @param class Un pointeur de type Course* qui pointe vers la matière à détruire
+    @param course Un pointeur de type Course* qui pointe vers la matière à détruire
     @return Un pointeur sur la variable détruite
 */
 Course* destroyCourse(Course* course){

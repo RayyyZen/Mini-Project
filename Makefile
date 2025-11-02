@@ -9,7 +9,6 @@ TARGET = Mini-Project
 
 all: $(TARGET)
 
-
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) $(LIBS)
 	rm -f $(OBJS)
@@ -20,6 +19,9 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f $(OBJS)
 	rm -f $(TARGET)
+	rm -rf Docs/html Docs/latex
 
-run: all 
+run: all
+	rm -rf Docs/html Docs/latex
+	doxygen Doxyfile
 	./$(TARGET)
