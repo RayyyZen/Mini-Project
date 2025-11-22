@@ -6,8 +6,13 @@
 */
 void displayClass(Class class){
     int i=0,j=0,k=0;
-    printf("\nPromotion : %d etudiants\n\n",class.size);
-    for(i=0;i<class.size;i++){
+    Student allcourses=class.students[class.size-1];
+    printf("\n--> RAYANE MEHANNI <--\n\nMatieres : %d\n\n",allcourses.size);
+    for(i=0;i<allcourses.size;i++){
+        printf("%s, Coefficient : %f\n",allcourses.courses[i].name,allcourses.courses[i].coefficient);
+    }
+    printf("\nPromotion : %d etudiants\n\n",class.size-1);
+    for(i=0;i<class.size-1;i++){//On s'arrête à class.size-2 car class.size-1 contient l'étudiant vide qui a toutes les matières pour garder une trace sur ces dernières
         printf("%d, %s %s, %d ans / Moyenne : %f\n-> Matieres : \n\n",class.students[i].id,class.students[i].lname,class.students[i].fname,class.students[i].age,class.students[i].average);
         for(j=0;j<class.students[i].size;j++){
             printf("--> %s / Coefficient : %f / Moyenne : %f\n----> Notes : ",class.students[i].courses[j].name,class.students[i].courses[j].coefficient,class.students[i].courses[j].average);

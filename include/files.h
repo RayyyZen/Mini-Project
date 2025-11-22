@@ -3,8 +3,8 @@
 
 #include "data.h"
 
-void saveData(Class* class);
-void recoverData(Class* class);
+int recoverData(Class* class, char *filePath);
+int saveData(Class* class, char *filePath);
 int checkFile(char *path);
 
 #endif

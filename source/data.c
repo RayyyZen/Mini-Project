@@ -4,10 +4,12 @@
     @brief Fonction qui ajoute un étudiant depuis une ligne d'un fichier
     @param class Un pointeur vers la promotion d'étudiants
     @param line Une chaine de caractères contenant une ligne du fichier à traiter
+    @retval 0 La fonction a rencontré un problème
+    @retval 1 La fonction a été exécutée
 */
-void addStudent(Class* class, char* line){
+int addStudent(Class* class, char* line){
     if(class==NULL){
-        exit(0);
+        return 0;
     }
     int id=0,age=0,index=class->size;
     char fname[50],lname[50];
@@ -16,7 +18,7 @@ void addStudent(Class* class, char* line){
     if(class->capacity == 0){//Premier étudiant ajouté
         class->students=malloc(sizeof(Student));
         if(class->students == NULL){
-            exit(0);
+            return 0;
         }
         class->capacity = 1;
     }
@@ -25,7 +27,7 @@ void addStudent(Class* class, char* line){
         class->students = (Student*) realloc(class->students,class->capacity*sizeof(Student));
         //Je ne stocke pas directement l'adresse de l'étudiant dans l'arbre binaire de recherche car les realloc changent les adresses des étudiants et donc les adresses contenues dans l'arbre deviennent erronées
         if(class->students == NULL){
-            exit(0);
+            return 0;
         }
     }
 
@@ -36,19 +38,29 @@ void addStudent(Class* class, char* line){
     class->students[index].sizelname=strlen(lname)+1;
     class->students[index].sizefname=strlen(fname)+1;
     class->students[index].lname=malloc(sizeof(char)*(strlen(lname)+1));
+    if(class->students[index].lname==NULL){
+        return 0;
+    }
     strcpy(class->students[index].lname,lname);
     class->students[index].fname=malloc(sizeof(char)*(strlen(fname)+1));
+    if(class->students[index].fname==NULL){
+        return 0;
+    }
     strcpy(class->students[index].fname,fname);
+
+    return 1;
 }
 
 /**
     @brief Fonction qui ajoute une matière depuis une ligne d'un fichier
     @param student Un pointeur vers un étudiant à qui on va mettre toutes les matières du fichier pour en garder une trace sur les coefficients
     @param line Une chaine de caractères contenant une ligne du fichier à traiter
+    @retval 0 La fonction a rencontré un problème
+    @retval 1 La fonction a été exécutée
 */
-void addCourse(Student* student, char* line){
+int addCourse(Student* student, char* line){
     if(student==NULL){
-        exit(0);
+        return 0;
     }
     int index=student->size;
     float coeff=0;
@@ -58,7 +70,7 @@ void addCourse(Student* student, char* line){
     if(student->capacity == 0){//Première matière ajoutée
         student->courses=malloc(sizeof(Course));
         if(student->courses == NULL){
-            exit(0);
+            return 0;
         }
         student->capacity = 1;
     }
@@ -66,7 +78,7 @@ void addCourse(Student* student, char* line){
         student->capacity *= 2;//On multiplie par 2 la capacité du tableau de matières
         student->courses = (Course*) realloc(student->courses,student->capacity*sizeof(Course));
         if(student->courses == NULL){
-            exit(0);
+            return 0;
         }
     }
 
@@ -75,7 +87,12 @@ void addCourse(Student* student, char* line){
     student->courses[index].coefficient=coeff;
     student->courses[index].sizename=strlen(name)+1;
     student->courses[index].name=malloc(sizeof(char)*(strlen(name)+1));
+    if(student->courses[index].name==NULL){
+        return 0;
+    }
     strcpy(student->courses[index].name,name);
+
+    return 1;
 }
 
 /**
@@ -84,10 +101,12 @@ void addCourse(Student* student, char* line){
     @param allcourses Un pointeur vers un étudiant qui contient toutes les matières listées dans le fichier
     @param tree Un arbre binaire de recherche contenant les adresses des étudiants de la promotion
     @param line Une chaine de caractères contenant une ligne du fichier à traiter
+    @retval 0 La fonction a rencontré un problème
+    @retval 1 La fonction a été exécutée
 */
-void addGrade(Class* class, Student* allcourses, pTree tree, char* line){
+int addGrade(Class* class, Student* allcourses, pTree tree, char* line){
     if(class==NULL){
-        exit(0);
+        return 0;
     }
     int id=0,index=0,i=0,verif=0,k=0;
     float grade=0,sum=0,sumcoeff=0;
@@ -97,7 +116,7 @@ void addGrade(Class* class, Student* allcourses, pTree tree, char* line){
     Student *std = researchNode(tree,id);
     //Recherche de l'étudiant d'identifiant "id" dans l'arbre binaire de recherche contenant les adresses des étudiants
     if(std == NULL){
-        exit(0);
+        return 0;
     }
 
     for(i=0;i<std->size;i++){
@@ -111,12 +130,18 @@ void addGrade(Class* class, Student* allcourses, pTree tree, char* line){
     if(std->capacity==0 || verif==0){
         if(std->capacity==0){//L'étudiant n'a encore aucune matière
             std->courses = malloc(sizeof(Course));
+            if(std->courses==NULL){
+                return 0;
+            }
             std->capacity = 1;
         }
         else{//Ca veut dire que verif==0 qui veut dire que c'est la première note de l'étudiant dans cette matière
             if(std->capacity == std->size){
                 std->capacity *= 2;//On multiplie par 2 la capacité du tableau de matières
                 std->courses = (Course*) realloc(std->courses,std->capacity*sizeof(Course));
+                if(std->courses==NULL){
+                    return 0;
+                }
             }
         }
         std->courses[std->size] = buildCourse();
@@ -124,12 +149,18 @@ void addGrade(Class* class, Student* allcourses, pTree tree, char* line){
             if(strcmp(allcourses->courses[i].name,name) == 0){
                 std->courses[std->size].sizename=allcourses->courses[i].sizename;
                 std->courses[std->size].name=malloc(sizeof(char)*std->courses[std->size].sizename);
+                if(std->courses[std->size].name==NULL){
+                    return 0;
+                }
                 strcpy(std->courses[std->size].name,name);
                 std->courses[std->size].coefficient=allcourses->courses[i].coefficient;
                 std->courses[std->size].average=grade;
 
                 std->courses[std->size].grades = buildGrades();
                 std->courses[std->size].grades.values = malloc(sizeof(float));
+                if(std->courses[std->size].grades.values==NULL){
+                    return 0;
+                }
                 std->courses[std->size].grades.capacity = 1;
                 std->courses[std->size].grades.values[std->courses[std->size].grades.size] = grade;
                 std->courses[std->size].grades.size++;
@@ -146,6 +177,9 @@ void addGrade(Class* class, Student* allcourses, pTree tree, char* line){
         std->courses[index].average=((std->courses[index].average*std->courses[index].grades.size)+grade)/(std->courses[index].grades.size+1);
         if(std->courses[index].grades.capacity == 0){//Première note de l'étudiant dans cette matière (On peut enlever ce if car il sera jamais vrai parce que quand il y a une nouvelle note elle est rajoutée en meme temps que sa matière dans le bout de code en haut)
             std->courses[index].grades.values = malloc(sizeof(float));
+            if(std->courses[index].grades.values==NULL){
+                return 0;
+            }
             std->courses[index].grades.capacity = 1;
             std->courses[index].grades.values[std->courses[index].grades.size] = grade;
             std->courses[index].grades.size++;
@@ -157,6 +191,9 @@ void addGrade(Class* class, Student* allcourses, pTree tree, char* line){
         else{//Il n y a plus de capacité pour rajouter une note
             std->courses[index].grades.capacity*=2;//On multiplie par 2 la capacité du tableau des notes
             std->courses[index].grades.values = (float*) realloc(std->courses[index].grades.values,std->courses[index].grades.capacity*sizeof(float));
+            if(std->courses[index].grades.values==NULL){
+                return 0;
+            }
             std->courses[index].grades.values[std->courses[index].grades.size] = grade;
             std->courses[index].grades.size++;
         }
@@ -166,14 +203,20 @@ void addGrade(Class* class, Student* allcourses, pTree tree, char* line){
         }
         std->average = sum/sumcoeff;//Calcul de la moyenne de l'étudiant
     }
+    return 1;
 }
 
 /**
     @brief Fonction qui traite un fichier et remplit une promotion d'étudiants
     @param class Un pointeur vers la promotion d'étudiants
     @param path Une chaine de caractères contenant le chemin du fichier à traiter
+    @retval 0 La fonction a rencontré un problème
+    @retval 1 La fonction a été exécutée
 */
-void dataStorage(Class* class, char* path){
+int dataStorage(Class* class, char* path){
+    if(path==NULL){
+        return 0;
+    }
     pTree tree=NULL;
     //L'arbre binaire de recherche qui va stocker les adressesdes étudiants de la promotion
     char line[100];
@@ -182,12 +225,12 @@ void dataStorage(Class* class, char* path){
     FILE *file = fopen(path,"r");
     //Ouverture du fichier en lecture
     if(file==NULL){
-        exit(1);
+        return 0;
     }
-    Student* allcourses = malloc(sizeof(Student));
+    Student *allcourses = malloc(sizeof(Student));
     //L'étudiant qui contiendra toutes les matières de la promotion pour garder une trace sur leurs coefficients
     if(allcourses==NULL){
-        exit(0);
+        return 0;
     }
     *allcourses = buildStudent();
 
@@ -196,12 +239,14 @@ void dataStorage(Class* class, char* path){
     }while(verif!=NULL && strcmp(line,"ETUDIANTS\n")!=0);
     fgets(line,sizeof(line),file);//Pour enlever la ligne juste après "ETUDIANTS"
     while(fgets(line,sizeof(line),file)!=NULL && line[0]!='\n'){
-        addStudent(class,line);
+        if(addStudent(class,line)==0){
+            return 0;
+        }
     }
     class->students = (Student*) realloc(class->students,class->size*sizeof(Student));
     //Pour enlever le surplus de capacité
     if(class->students == NULL){
-        exit(0);
+        return 0;
     }
     class->capacity = class->size;
 
@@ -215,12 +260,14 @@ void dataStorage(Class* class, char* path){
     }while(verif!=NULL && strcmp(line,"MATIERES\n")!=0);
     fgets(line,sizeof(line),file);//Pour enlever la ligne juste après "MATIERES"
     while(fgets(line,sizeof(line),file)!=NULL && line[0]!='\n'){
-        addCourse(allcourses,line);
+        if(addCourse(allcourses,line)==0){
+            return 0;
+        }
     }
     allcourses->courses = (Course*) realloc(allcourses->courses,allcourses->size*sizeof(Course));
     //Pour enlever le surplus de capacité
     if(allcourses->courses == NULL){
-        exit(0);
+        return 0;
     }
     allcourses->capacity = allcourses->size;
 
@@ -230,25 +277,67 @@ void dataStorage(Class* class, char* path){
     }while(verif!=NULL && strcmp(line,"NOTES\n")!=0);
     fgets(line,sizeof(line),file);//Pour enlever la ligne juste après "NOTES"
     while(fgets(line,sizeof(line),file)!=NULL && line[0]!='\n'){
-        addGrade(class,allcourses,tree,line);
+        if(addGrade(class,allcourses,tree,line)==0){
+            return 0;
+        }
     }
     tree=destroyTree(tree);
 
     for(i=0;i<class->size;i++){
         class->students[i].courses = (Course*) realloc(class->students[i].courses,class->students[i].size*sizeof(Course));
         if(class->students[i].courses==NULL){
-            exit(0);
+            return 0;
         }
         class->students[i].capacity=class->students[i].size;
         for(j=0;j<class->students[i].size;j++){
             class->students[i].courses[j].grades.values = (float*) realloc(class->students[i].courses[j].grades.values,class->students[i].courses[j].grades.size*sizeof(float));
             if(class->students[i].courses[j].grades.values==NULL){
-                exit(0);
+                return 0;
             }
             class->students[i].courses[j].grades.capacity=class->students[i].courses[j].grades.size;
         }
     }
     //Pour enlever le surplus de capacité
 
+    class->size++;
+    class->students = (Student*) realloc(class->students,class->size*sizeof(Student));
+    if(class->students == NULL){
+        return 0;
+    }
+    class->capacity = class->size;
+    class->students[class->size-1]=*allcourses;
+
     fclose(file);
+    return 1;
+}
+
+/**
+    @brief Fonction qui libère toute la mémoire allouée
+    @param class Un pointeur vers la promotion d'étudiants
+    @return Le pointeur vers la promotion d'étudiants liberé
+*/
+Class* dataDestroy(Class* class){
+    if(class==NULL){
+        return class;
+    }
+    int i=0,j=0;
+    if(class->students!=NULL){
+        for(i=0;i<class->size;i++){
+            if(class->students[i].courses!=NULL){
+                for(j=0;j<class->students[i].size;j++){
+                    free(class->students[i].courses[j].name);
+                    class->students[i].courses[j].name=NULL;
+                    destroyGrades(&class->students[i].courses[j].grades);
+                }
+            }
+            free(class->students[i].lname);
+            class->students[i].lname=NULL;
+            free(class->students[i].fname);
+            class->students[i].fname=NULL;
+            class->students[i].courses=destroyCourse(class->students[i].courses);
+        }
+        class->students=destroyStudent(class->students);
+    }
+    destroyClass(class);
+    return class;
 }

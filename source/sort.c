@@ -1,30 +1,31 @@
 #include "sort.h"
 
 /**
-    @brief Fonction qui retourne un tableau des 10 étudiants avec la meilleure moyenne de la promotion
+    @brief Fonction qui retourne un tableau des étudiants avec la meilleure moyenne de la promotion
     @param class La promotion d'étudiants
     @param size Un pointeur sur la taille du tableau qu'on va créer
+    @param max Le maximum d'étudiants à retourner
     @return Le tableau d'étudiants crée
 */
-Student* bestAverages(Class* class, int* size){
+Student* bestAverages(Class* class, int* size, int max){
     if(class==NULL || size==NULL){
-        exit(0);
+        return NULL;
     }
-    *size=10;
-    if(class->size<=10){
+    *size=max;
+    if(class->size<=max){
         *size = class->size;
     }
     Student *array=malloc((*size)*sizeof(Student));
     if(array==NULL){
-        exit(0);
+        return NULL;
     }
     int i=0,j=0,index=0;
     float min=0;
     for(i=0;i<(*size);i++){
         array[i] = class->students[i];
     }
-    if(class->size>10){
-        for(i=10;i<class->size;i++){
+    if(class->size>max){
+        for(i=max;i<class->size;i++){
             min=array[0].average;
             index=0;
             for(j=1;j<(*size);j++){//Recherche de la plus petite moyenne du tableau "array"
@@ -59,11 +60,12 @@ Student* bestAverages(Class* class, int* size){
     @param class La promotion d'étudiants
     @param coursename Le nom d'une matière
     @param size Un pointeur sur la taille du tableau qu'on va créer
+    @param max Le maximum d'étudiants à retourner
     @return Le tableau d'étudiants crée
 */
-Student* bestCourseAverages(Class* class, char* coursename, int* size){
+Student* bestCourseAverages(Class* class, char* coursename, int* size, int max){
     if(class==NULL || coursename==NULL || size==NULL){
-        exit(0);
+        return NULL;
     }
     int i=0,j=0,k=0,r=0,counter=0,verif=0,index=0;
     float min=0;
@@ -76,7 +78,7 @@ Student* bestCourseAverages(Class* class, char* coursename, int* size){
                 counter++;
                 verif=1;
             }
-            if(counter>=1 && counter<=3){
+            if(counter>=1 && counter<=max){
                 if(counter==1){
                     array=malloc(sizeof(Student));
                 }
@@ -84,12 +86,12 @@ Student* bestCourseAverages(Class* class, char* coursename, int* size){
                     array=(Student*) realloc(array,counter*sizeof(Student));
                 }
                 if(array==NULL){
-                    exit(0);
+                    return NULL;
                 }
                 array[counter-1]=class->students[i];
                 *size=counter;
             }
-            else if(verif==1){//counter>=4
+            else if(verif==1){//counter>max
                 index=0;
                 for(r=0;r<array[0].size;r++){
                     if(strcmp(array[0].courses[r].name,coursename)==0){

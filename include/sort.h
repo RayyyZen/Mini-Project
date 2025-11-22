@@ -3,7 +3,10 @@
 
 #include "display.h"
 
-Student* bestAverages(Class* class, int* size);
-Student* bestCourseAverages(Class* class, char* coursename, int* size);
+#define BESTAVERAGES 10
+#define BESTCOURSEAVERAGES 3
+
+Student* bestAverages(Class* class, int* size, int max);
+Student* bestCourseAverages(Class* class, char* coursename, int* size, int max);
 
 #endif
