@@ -1,4 +1,5 @@
 #include "student_api.h"
+#include "sort.h"
 
 CLASS_DATA* API_load_students(char* filePath){
     Class* class=malloc(sizeof(Class));
@@ -42,7 +43,8 @@ void API_unload(CLASS_DATA* pClass){
     class=dataDestroy(class);
 }
 
-char** Best_students(Student* array, int size){
+char** Best_students(CLASS_DATA* pArray, int size){
+    Student *array=(Student*) pArray;
     if(array==NULL){
         return NULL;
     }
@@ -89,4 +91,64 @@ char** API_get_best_students_in_course(CLASS_DATA* pClass, char* course){
     }
     char** bestStudents=Best_students(array,size);
     return bestStudents;
+}
+
+int API_set_sorting_mode(CLASS_DATA* pClass, int mode){
+    Class* class=(Class*) pClass;
+    if(class==NULL){
+        return 0;
+    }
+
+    switch(mode){
+        case ALPHA_FIRST_NAME :
+            class->compare=compareFirstName;
+            break;
+        case ALPHA_LAST_NAME :
+            class->compare=compareLastName;
+            break;
+        case AVERAGE :
+            class->compare=compareAverage;
+            break;
+        case MINIMUM :
+            class->compare=compareMinimum;
+            break;
+        default :
+            return 0;
+    }
+    return 1;
+}
+
+char** API_sort_students(CLASS_DATA* pClass){
+    Class* class=(Class*) pClass;
+    if(class==NULL || class->students==NULL || class->size<=0){
+        return NULL;
+    }
+    if(class->compare==NULL){
+        class->compare=compareAverage;
+        //Par default
+    }
+
+    Student tmp;
+    int size=SIZE_TOP1,i=0,j=0;
+    if(class->size<size){
+        size=class->size;
+    }
+    for(i=0;i<class->size-2;i++){//Car dans class->size-1 il y a l'etudiant vide qui contient les matières de la promotion
+        for(j=i+1;j<class->size-1;j++){
+            if(class->compare(&class->students[i],&class->students[j])==1){
+                tmp=class->students[i];
+                class->students[i]=class->students[j];
+                class->students[j]=tmp;
+            }
+        }
+    }
+
+    Student* array=malloc(size*sizeof(Student));
+    if(array==NULL){
+        return NULL;
+    }
+    for(i=0;i<size;i++){
+        array[i]=class->students[i];
+    }
+    return Best_students(array,size);
 }

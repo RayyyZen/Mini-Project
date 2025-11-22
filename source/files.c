@@ -170,6 +170,7 @@ int recoverData(Class* class, char *filePath){
     if(class == NULL || file == NULL){
         return 0;
     }
+    class->compare=NULL;
 
     fread(&class->size,sizeof(int),1,file);
     fread(&class->capacity,sizeof(int),1,file);

@@ -7,6 +7,9 @@ SRCS = $(wildcard $(SRCDIR)/*.c)
 OBJS = $(SRCS:$(SRCDIR)/%.c=%.o)
 TARGET = Mini-Project
 
+APISRCS = $(filter-out $(SRCDIR)/main.c, $(SRCS))
+APIOBJS = $(APISRCS:$(SRCDIR)/%.c=%.o)
+
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
@@ -15,6 +18,14 @@ $(TARGET): $(OBJS)
 
 %.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCDIR)
+
+api_s: $(APIOBJS)
+	ar r libstudent_s.a $(APIOBJS)
+	rm -f $(APIOBJS)
+
+api_d: $(APIOBJS)
+	gcc -shared -o libstudent_d.so $(APIOBJS)
+	rm -f $(APIOBJS)
 
 clean:
 	rm -f $(OBJS)

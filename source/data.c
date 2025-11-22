@@ -214,9 +214,11 @@ int addGrade(Class* class, Student* allcourses, pTree tree, char* line){
     @retval 1 La fonction a été exécutée
 */
 int dataStorage(Class* class, char* path){
-    if(path==NULL){
+    if(path==NULL || class==NULL){
         return 0;
     }
+    class->compare=NULL;
+
     pTree tree=NULL;
     //L'arbre binaire de recherche qui va stocker les adressesdes étudiants de la promotion
     char line[100];

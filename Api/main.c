@@ -92,7 +92,7 @@ int main(){
     printf("==================================\n");
     printf("API_load_students()...\n");
     start = getTimeMilliSec();
-    p1 = API_load_students("Data/data.txt");    
+    p1 = API_load_students("data.txt");    
     if(p1 == NULL){
         printf("  [ERROR] while trying to load data !\n");        
     }

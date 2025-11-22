@@ -140,3 +140,85 @@ Student* bestCourseAverages(Class* class, char* coursename, int* size, int max){
 
     return array;
 }
+
+int compareStrings(char *str1, char *str2){
+    if(str1 == NULL || str2 == NULL){
+        exit(3);
+    }
+    int counter=0;
+    while(str1[counter]!='\0' && str2[counter]!='\0'){
+        if(str1[counter]<str2[counter]){
+            return -1; 
+        }
+        else if(str1[counter]>str2[counter]){
+            return 1;
+        }
+        counter++;
+    }
+    if(str1[counter]=='\0' && str2[counter]!='\0'){
+        return -1;
+    }
+    else if(str1[counter]!='\0' && str2[counter]=='\0'){
+        return 1;
+    }
+    return 0;
+}
+
+int compareFirstName(Student* student1, Student* student2){
+    if(student1 == NULL || student2 == NULL || student1->fname == NULL || student2->fname == NULL){
+        exit(2);
+    }
+    return compareStrings(student1->fname,student2->fname);
+}
+
+int compareLastName(Student* student1, Student* student2){
+    if(student1 == NULL || student2 == NULL || student1->lname == NULL || student2->lname == NULL){
+        exit(2);
+    }
+    return compareStrings(student1->lname,student2->lname);
+}
+
+int compareAverage(Student* student1, Student* student2){
+    if(student1 == NULL || student2 == NULL){
+        exit(2);
+    }
+
+    if(student1->average > student2->average){
+        return -1;
+    }
+    else if(student1->average < student2->average){
+        return 1;
+    }
+    return 0;
+}
+
+float getMinimumAverage(Student* std){
+    if(std == NULL){
+        exit(2);
+    }
+    if(std->courses==NULL || std->size<=0){
+        return -1;
+    }
+    int i=0;
+    float min=std->courses[0].average;
+    for(i=1;i<std->size;i++){
+        if(std->courses[i].average<min){
+            min=std->courses[i].average;
+        }
+    }
+    return min;
+}
+
+int compareMinimum(Student* student1, Student* student2){
+    if(student1 == NULL || student2 == NULL){
+        exit(2);
+    }
+
+    if(getMinimumAverage(student1) > getMinimumAverage(student2)){
+        return -1;
+    }
+    else if(getMinimumAverage(student1) < getMinimumAverage(student2)){
+        return 1;
+    }
+    return 0;
+}

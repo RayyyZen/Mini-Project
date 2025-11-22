@@ -11,9 +11,10 @@ typedef struct {
     int size;
     int capacity;//Sert à reallouer le tableau d'étudiants si besoin
     Student *students;
+    int (*compare) (Student* student1, Student* student2);
 }Class;
 
 Class buildClass();
-void destroyClass(Class* class);
+Class* destroyClass(Class* class);
 
 #endif
