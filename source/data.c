@@ -273,7 +273,6 @@ int dataStorage(Class* class, char* path){
     }
     allcourses->capacity = allcourses->size;
 
-
     do{
         verif=fgets(line,sizeof(line),file);
     }while(verif!=NULL && strcmp(line,"NOTES\n")!=0);

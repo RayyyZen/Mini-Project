@@ -1,6 +1,7 @@
 #include "student_api.h"
 #include "sys/time.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 long getTimeMilliSec(){
     // Locals
@@ -13,8 +14,6 @@ long getTimeMilliSec(){
     result = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
     return result;
 }
-
-
 
 void check_null(){
     CLASS_DATA* p1 = NULL;

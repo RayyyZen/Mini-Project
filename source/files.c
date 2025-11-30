@@ -1,12 +1,6 @@
 #include "files.h"
 
-/**
-    @brief Fonction qui restaure les informations d'une promotion d'étudiants depuis un fichier
-    @param class La promotion d'étudiants
-    @param filePath Le chemin du fichier contenant l'ensemble des données
-    @retval 0 La fonction a rencontré un problème
-    @retval 1 La fonction a été exécutée
-*//*
+/*
 int recoverData(Class* class, char *filePath){
     if(filePath == NULL){
         return 0;
@@ -54,13 +48,7 @@ int recoverData(Class* class, char *filePath){
 }
 */
 
-/**
-    @brief Fonction qui sauvegarde les informations d'une promotion d'étudiants dans des fichiers
-    @param class La promotion d'étudiants
-    @param filePath Le chemin du fichier dans lequel sera sauvegardé l'ensemble des données
-    @retval 0 La fonction a rencontré un problème
-    @retval 1 La fonction a été exécutée
-*//*
+/*
 int saveData(Class* class, char *filePath){
     if(filePath == NULL){
         return 0;
@@ -225,7 +213,7 @@ int recoverData(Class* class, char *filePath){
 }
 
 /**
-    @brief Fonction qui sauvegarde les informations d'une promotion d'étudiants dans des fichiers
+    @brief Fonction qui sauvegarde les informations d'une promotion d'étudiants dans un fichier
     @param class La promotion d'étudiants
     @param filePath Le chemin du fichier dans lequel sera sauvegardé l'ensemble des données
     @retval 0 La fonction a rencontré un problème

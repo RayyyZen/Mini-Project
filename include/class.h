@@ -11,7 +11,7 @@ typedef struct {
     int size;
     int capacity;//Sert à reallouer le tableau d'étudiants si besoin
     Student *students;
-    int (*compare) (Student* student1, Student* student2);
+    int (*compare) (Student* student1, Student* student2);//Type de comparaison à effectuer sur la promotion d'étudiants
 }Class;
 
 Class buildClass();

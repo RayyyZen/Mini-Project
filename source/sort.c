@@ -141,7 +141,15 @@ Student* bestCourseAverages(Class* class, char* coursename, int* size, int max){
     return array;
 }
 
-int compareStrings(char *str1, char *str2){
+/**
+    @brief Fonction qui retourne le positionnement d'une chaine de caractère par rapport à une autre suivant l'ordre alphabétique
+    @param str1 Première chaine de caractère
+    @param str2 Deuxème chaine de caractère
+    @retval -1 La première chaine se trouve avant la deuxième dans l'ordre alphabétique
+    @retval 1 La première chaine se trouve après la deuxième dans l'ordre alphabétique
+    @retval 0 Les deux chaines sont identiques
+*/
+int compareStrings(char* str1, char* str2){
     if(str1 == NULL || str2 == NULL){
         exit(3);
     }
@@ -164,6 +172,14 @@ int compareStrings(char *str1, char *str2){
     return 0;
 }
 
+/**
+    @brief Fonction qui compare deux étudiants par rapport à leur prénom 
+    @param student1 Premier étudiant
+    @param student2 Deuxème étudiant
+    @retval -1 Le premier étudiant se trouve avant le deuxième dans l'ordre
+    @retval 1 Le premier étudiant se trouve après le deuxième dans l'ordre
+    @retval 0 Les prénoms des deux étudiants sont identiques
+*/
 int compareFirstName(Student* student1, Student* student2){
     if(student1 == NULL || student2 == NULL || student1->fname == NULL || student2->fname == NULL){
         exit(2);
@@ -171,6 +187,14 @@ int compareFirstName(Student* student1, Student* student2){
     return compareStrings(student1->fname,student2->fname);
 }
 
+/**
+    @brief Fonction qui compare deux étudiants par rapport à leur nom 
+    @param student1 Premier étudiant
+    @param student2 Deuxème étudiant
+    @retval -1 Le premier étudiant se trouve avant le deuxième dans l'ordre
+    @retval 1 Le premier étudiant se trouve après le deuxième dans l'ordre
+    @retval 0 Les noms des deux étudiants sont identiques
+*/
 int compareLastName(Student* student1, Student* student2){
     if(student1 == NULL || student2 == NULL || student1->lname == NULL || student2->lname == NULL){
         exit(2);
@@ -178,6 +202,14 @@ int compareLastName(Student* student1, Student* student2){
     return compareStrings(student1->lname,student2->lname);
 }
 
+/**
+    @brief Fonction qui compare deux étudiants par rapport à leur moyenne générale 
+    @param student1 Premier étudiant
+    @param student2 Deuxème étudiant
+    @retval -1 Le premier étudiant se trouve avant le deuxième dans l'ordre
+    @retval 1 Le premier étudiant se trouve après le deuxième dans l'ordre
+    @retval 0 Les moyennes générales des deux étudiants sont identiques
+*/
 int compareAverage(Student* student1, Student* student2){
     if(student1 == NULL || student2 == NULL){
         exit(2);
@@ -192,6 +224,11 @@ int compareAverage(Student* student1, Student* student2){
     return 0;
 }
 
+/**
+    @brief Fonction qui retourne la plus petite moyenne d'une matière d'un étudiant
+    @param std Un pointeur sur un étudiant
+    @return La moyenne minimale d'une matière de l'étudiant
+*/
 float getMinimumAverage(Student* std){
     if(std == NULL){
         exit(2);
@@ -209,6 +246,14 @@ float getMinimumAverage(Student* std){
     return min;
 }
 
+/**
+    @brief Fonction qui compare deux étudiants par rapport à leur plus petite moyenne de matière
+    @param student1 Premier étudiant
+    @param student2 Deuxème étudiant
+    @retval -1 Le premier étudiant se trouve avant le deuxième dans l'ordre
+    @retval 1 Le premier étudiant se trouve après le deuxième dans l'ordre
+    @retval 0 Les plus petites moyennes de matière des deux étudiants sont identiques
+*/
 int compareMinimum(Student* student1, Student* student2){
     if(student1 == NULL || student2 == NULL){
         exit(2);

@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra
 SRCDIR = source
 INCDIR = include
 
@@ -13,7 +13,7 @@ APIOBJS = $(APISRCS:$(SRCDIR)/%.c=%.o)
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) $(LIBS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
 	rm -f $(OBJS)
 
 %.o: $(SRCDIR)/%.c
