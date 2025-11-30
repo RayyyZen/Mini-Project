@@ -71,6 +71,42 @@ xdg-open Docs/html/index.html
 open Docs/html/index.html
 ```
 
+## Api
+
+### Bibliothèque statique
+
+- Pour créer une bibliothèque statique (en étant dans le répertoire du projet) :
+```sh
+make api_s
+```
+
+- Pour compiler le projet depuis le dossier `Api` :
+```sh
+gcc main.c -I . -L . -lstudent_s -o MiniStatic
+```
+
+- Pour exécuter le projet depuis le dossier `Api` :
+```sh
+./MiniStatic
+```
+
+### Bibliothèque dynamique
+
+- Pour créer une bibliothèque dynamique (en étant dans le répertoire du projet) :
+```sh
+make api_d
+```
+
+- Pour compiler le projet depuis le dossier `Api` :
+```sh
+gcc main.c -o MiniDynamic -L. -lstudent_d -Wl,-rpath=.
+```
+
+- Pour exécuter le projet depuis le dossier `Api` :
+```sh
+./MiniDynamic
+```
+
 ## Licence
 
 Ce projet est sous la licence BSD 2-Clause. Voir [LICENSE](LICENSE) pour plus de détails.

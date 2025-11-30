@@ -77,6 +77,7 @@ int main(){
     
     char** best10 = NULL;
     char** best3  = NULL;
+    char** sort10 = NULL;
     
     CLASS_DATA* p1 = NULL;
     CLASS_DATA* p2 = NULL;
@@ -176,7 +177,7 @@ int main(){
     printf("==================================\n");
     printf("API_sort_students()...\n");
     start = getTimeMilliSec();
-    char **sort10 = API_sort_students(p1);
+    sort10 = API_sort_students(p1);
     end = getTimeMilliSec();
     if(sort10 == NULL){
         printf("  [ERROR] while trying to get sorted students !\n");        

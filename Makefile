@@ -33,6 +33,8 @@ clean:
 	rm -rf Docs/html Docs/latex
 
 run: all
+	@echo "\nGénération de la documentation doxygen"
 	rm -rf Docs/html Docs/latex
-	doxygen Doxyfile
+	doxygen Doxyfile > /dev/null
+	@echo "\nLancement du programme"
 	./$(TARGET)

@@ -1,6 +1,7 @@
 #include "student_api.h"
 #include "sys/time.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 long getTimeMilliSec(){
     // Locals
@@ -13,8 +14,6 @@ long getTimeMilliSec(){
     result = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
     return result;
 }
-
-
 
 void check_null(){
     CLASS_DATA* p1 = NULL;
@@ -78,6 +77,7 @@ int main(){
     
     char** best10 = NULL;
     char** best3  = NULL;
+    char** sort10 = NULL;
     
     CLASS_DATA* p1 = NULL;
     CLASS_DATA* p2 = NULL;
@@ -177,7 +177,7 @@ int main(){
     printf("==================================\n");
     printf("API_sort_students()...\n");
     start = getTimeMilliSec();
-    char **sort10 = API_sort_students(p1);
+    sort10 = API_sort_students(p1);
     end = getTimeMilliSec();
     if(sort10 == NULL){
         printf("  [ERROR] while trying to get sorted students !\n");        
