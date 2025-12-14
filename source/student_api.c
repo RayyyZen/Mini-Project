@@ -37,7 +37,7 @@ int API_save_to_binary_file(CLASS_DATA* pClass, char* filePath){
 */
 CLASS_DATA* API_restore_from_binary_file(char* filePath){
     Class* class=malloc(sizeof(Class));
-    if(class==NULL){
+    if(class==NULL || filePath==NULL){
         return NULL;
     }
     *class=buildClass();
@@ -205,4 +205,136 @@ char** API_sort_students(CLASS_DATA* pClass){
         array[i]=class->students[i];
     }
     return Best_students(array,size);
+}
+
+/**
+    @brief Fonction qui affiche pour chaque étudiant de la promotion s'il a validé chacun des pôles et s'il a validé l'année 
+    @param pClass La promotion d'étudiants
+*/
+void API_display_results_per_field(CLASS_DATA* pClass){
+    int i=0;
+    Class* class=(Class*) pClass;
+    if(class==NULL || class->students==NULL || class->size<=0){
+        return;
+    }
+
+    printf("\nPromotion : %d etudiants\n\n",class->size-1);
+    for(i=0;i<class->size-1;i++){//On s'arrête à class.size-2 car class.size-1 contient l'étudiant vide qui a toutes les matières pour garder une trace sur ces dernières
+        printf("%d, %s %s, %d ans / Moyenne : %f\n",class->students[i].id,class->students[i].lname,class->students[i].fname,class->students[i].age,class->students[i].average);
+        printf("-> Sciences : ");
+        if(compareMask(&class->students[i],SCIENCES_MASK)){
+            printf("Validé\n");
+        }
+        else{
+            printf("Non validé\n");
+        }
+        printf("-> Humanités : ");
+        if(compareMask(&class->students[i],HUMANITIES_MASK)){
+            printf("Validé\n");
+        }
+        else{
+            printf("Non validé\n");
+        }
+        if(compareMask(&class->students[i],YEAR_MASK)){
+            printf("L'année est validée\n");
+        }
+        else{
+            printf("L'année n'est pas validée\n");
+        }
+        printf("\n\n");
+    }
+}
+
+/**
+    @brief Fonction qui chiffre un fichier binaire contenant les informations d'une promotion
+    @param pIn Le chemin du fichier à chiffrer
+    @param pOut Le chemin du nouveau fichier qui contiendra les données chiffrées
+    @retval 1 Le chiffrement s'est passé avec succés
+    @retval 0 Le chiffrement a échoué
+*/
+int API_cipher(char* pIn, char* pOut){
+    if(pIn==NULL || pOut==NULL){
+        return 0;
+    }
+    unsigned char key[KEYSIZE] = {0x01,0x23,0x45,0x57,0x89,0xAB,0xCD,0xEF,0x10,0x32,0x54,0x75,0x98,0xBA,0xDC,0xFE};
+    unsigned char car=0;
+    int i=0,counter=0;
+    if(!cipher(key,KEYSIZE)){//Chiffrement de la clé intialisée grâce à une entrée utilisateur
+        return 0;
+    }
+
+    FILE* in = fopen(pIn,"rb");
+    if(in==NULL){
+        return 0;
+    }
+    FILE* out = fopen(pOut,"wb");
+    if(out==NULL){
+        fclose(in);
+        return 0;
+    }
+
+    unsigned char random[KEYSIZE];
+    srand(time(NULL));
+    for(i=0;i<KEYSIZE;i++){
+        random[i] = rand()%256;//Génération d'une clé aléatoire
+        car = random[i] ^ key[i];
+        fwrite(&car,1,1,out);
+    }
+
+    while(fread(&car,1,1,in) == 1){
+        car ^= random[counter%KEYSIZE];
+        fwrite(&car,1,1,out);
+        counter++;
+    }
+    fclose(in);
+    fclose(out);
+    return 1;
+}
+
+/**
+    @brief Fonction qui déchiffre un fichier binaire chiffré contenant les informations d'une promotion
+    @param pIn Le chemin du fichier à déchiffrer
+    @param pOut Le chemin du nouveau fichier qui contiendra les données déchiffrées
+    @retval 1 Le déchiffrement s'est passé avec succés
+    @retval 0 Le déchiffrement a échoué
+*/
+int API_decipher(char* pIn, char* pOut){
+    if(pIn==NULL || pOut==NULL){
+        return 0;
+    }
+    unsigned char key[KEYSIZE] = {0x01,0x23,0x45,0x57,0x89,0xAB,0xCD,0xEF,0x10,0x32,0x54,0x75,0x98,0xBA,0xDC,0xFE};
+    unsigned char car=0;
+    int i=0,counter=0;
+    if(!cipher(key,KEYSIZE)){//Chiffrement de la clé intialisée grâce à une entrée utilisateur
+        return 0;
+    }
+
+    FILE* in = fopen(pIn,"rb");
+    if(in==NULL){
+        return 0;
+    }
+    FILE* out = fopen(pOut,"wb");
+    if(out==NULL){
+        fclose(in);
+        return 0;
+    }
+
+    unsigned char key2[KEYSIZE];
+    fread(key2,1,KEYSIZE,in);
+    //Lecture de la clé chiffrée
+
+    unsigned char random[KEYSIZE];
+    for(i=0;i<KEYSIZE;i++){
+        random[i] = key2[i] ^ key[i];
+        //Déchiffrement de la clé aléatoire
+    }
+
+    while(fread(&car,1,1,in) == 1){
+        car ^= random[counter%KEYSIZE];
+        fwrite(&car,1,1,out);
+        counter++;
+    }
+    fclose(in);
+    fclose(out);
+    return 1;
 }

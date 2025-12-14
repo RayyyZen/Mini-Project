@@ -16,6 +16,7 @@ Student buildStudent(){
     student.capacity=0;
     student.courses=NULL;
     student.average=0;
+    student.index=0;
     return student;
 }
 
@@ -32,7 +33,22 @@ Student* destroyStudent(Student* student){
     student->size=0;
     student->capacity=0;
     student->average=0;
+    student->index=0;
     free(student);
     student=NULL;
     return student;
+}
+
+/**
+    @brief Fonction qui compare les résultats d'un étudiant avec un masque binaire
+    @param student Un pointeur vers un étudiant de la promotion
+    @param mask Un mask binaire dont les index correspondent à des matières
+    @retval 0 Il existe au moins un bit du masque qui n'est pas activé pour l'étudiant
+    @retval 1 Tous les bits du masque sont activés pour l'étudiant
+*/
+int compareMask(Student* student, uint64_t mask){
+    if(student == NULL || (student->index & mask) != mask){
+        return 0;
+    }
+    return 1;
 }

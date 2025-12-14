@@ -207,6 +207,80 @@ int addGrade(Class* class, Student* allcourses, pTree tree, char* line){
 }
 
 /**
+    @brief Fonction qui retourne l'indice correspondant à une matière
+    @param course Un pointeur une matière
+    @return L'indice correspondant à la matière passée en paramètre
+*/
+CourseIndex courseIndex(Course* course){
+    if(course == NULL || course->name == NULL){
+        return -1;
+    }
+    else if(!strcmp(course->name,"Mathematiques")){
+        return MATHS;
+    }
+    else if(!strcmp(course->name,"Physique")){
+        return PHYSIQUE;
+    }
+    else if(!strcmp(course->name,"Informatique")){
+        return INFORMATIQUE;
+    }
+    else if(!strcmp(course->name,"Chimie")){
+        return CHIMIE;
+    }
+    else if(!strcmp(course->name,"Biologie")){
+        return BIOLOGIE;
+    }
+    else if(!strcmp(course->name,"Histoire")){
+        return HISTOIRE;
+    }
+    else if(!strcmp(course->name,"Geographie")){
+        return GEOGRAPHIE;
+    }
+    else if(!strcmp(course->name,"Français")){
+        return FRANCAIS;
+    }
+    else if(!strcmp(course->name,"Anglais")){
+        return ANGLAIS;
+    }
+    else if(!strcmp(course->name,"EPS")){
+        return EPS;
+    }
+    else if(!strcmp(course->name,"Philosophie")){
+        return PHILOSOPHIE;
+    }
+    else if(!strcmp(course->name,"Economie")){
+        return ECONOMIE;
+    }
+    else if(!strcmp(course->name,"Sociologie")){
+        return SOCIOLOGIE;
+    }
+    else if(!strcmp(course->name,"Arts Plastiques")){
+        return ARTS;
+    }
+    else if(!strcmp(course->name,"Musique")){
+        return MUSIQUE;
+    }
+    else if(!strcmp(course->name,"Technologie")){
+        return TECHNOLOGIE;
+    }
+    else if(!strcmp(course->name,"Latin")){
+        return LATIN;
+    }
+    else if(!strcmp(course->name,"Espagnol")){
+        return ESPAGNOL;
+    }
+    else if(!strcmp(course->name,"Allemand")){
+        return ALLEMAND;
+    }
+    else if(!strcmp(course->name,"Sciences Sociales")){
+        return SOCIALES;
+    }
+    else{
+        return -1;
+    }
+}
+
+/**
     @brief Fonction qui traite un fichier et remplit une promotion d'étudiants
     @param class Un pointeur vers la promotion d'étudiants
     @param path Une chaine de caractères contenant le chemin du fichier à traiter
@@ -224,6 +298,7 @@ int dataStorage(Class* class, char* path){
     char line[100];
     char *verif=NULL;
     int i=0,j=0;
+    char index=0;
     FILE *file = fopen(path,"r");
     //Ouverture du fichier en lecture
     if(file==NULL){
@@ -296,6 +371,19 @@ int dataStorage(Class* class, char* path){
                 return 0;
             }
             class->students[i].courses[j].grades.capacity=class->students[i].courses[j].grades.size;
+
+            index = courseIndex(&class->students[i].courses[j]);
+            if(index == -1){//La matière n'existe pas
+                return 0;
+            }
+            if(class->students[i].courses[j].average >= 10.0){
+                class->students[i].index |= (1<<index);
+                //Mettre la valeur 1 pour le bit qui correspond à la matière que l'étudiant a validé
+            }
+            else{
+                class->students[i].index &= ~(1<<index);
+                //Mettre la valeur 0 pour le bit qui correspond à la matière que l'étudiant n'a pas validé
+            }
         }
     }
     //Pour enlever le surplus de capacité
@@ -307,6 +395,8 @@ int dataStorage(Class* class, char* path){
     }
     class->capacity = class->size;
     class->students[class->size-1]=*allcourses;
+
+    
 
     fclose(file);
     return 1;
@@ -341,4 +431,31 @@ Class* dataDestroy(Class* class){
     }
     destroyClass(class);
     return class;
+}
+
+/**
+    @brief Fonction qui crée une clé grâce à une entrée utilisateur utilisée pour chiffrer la vraie clé aléatoire avec laquelle est chiffré le fichier binaire
+    @param key Une clé de base initialisée
+    @param keySize La taille de la clé
+    @retval 1 Le chiffrement de la clé s'est passé avec succés
+    @retval 0 Le chiffrement de la clé a échoué
+*/
+int cipher(unsigned char* key, int keySize){
+    if(key==NULL || keySize<=0){
+        return 0;
+    }
+    int verif=0,counter=0;
+    char message[50];
+    do{
+        printf("Entrez un mot de passe d'au moins 16 caractères pour chiffrer le fichier binaire : ");
+        verif = scanf("%s",message);
+        while(getchar()!='\n'){}
+    }while(verif == 0 || strlen(message) < 16);
+    while(message[counter]!='\0'){
+        key[counter%keySize] ^= (unsigned char)message[counter];
+        key[(counter+1)%keySize] += (unsigned char)message[counter];
+        key[(counter-1+16)%keySize] *= (unsigned char)message[counter];
+        counter++;
+    }
+    return 1;
 }

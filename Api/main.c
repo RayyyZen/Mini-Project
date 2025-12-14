@@ -102,7 +102,7 @@ int main(){
     // display Data for both
     printf("==================================\n");
     printf("API_display(p1)...\n");
-//    API_display(p1);
+    API_display_results_per_field(p1);
     printf("\n");
 
 //*    
@@ -118,11 +118,38 @@ int main(){
     displayTime(start, end);
 //*/
 
+//*    
+    // Cipher
+    printf("==================================\n");
+    printf("API_cipher()...\n");
+    start = getTimeMilliSec();
+    result = API_cipher("saved_data.bin", "saved_cipher_data.bin");
+    end = getTimeMilliSec();
+    if(result == 0){
+        printf("  [ERROR] while trying to cipher data !\n");
+    }
+    displayTime(start, end);
+
+//*    
+    // Decipher
+    printf("==================================\n");
+    printf("API_decipher()...\n");
+    start = getTimeMilliSec();
+    result = API_decipher("saved_cipher_data.bin", "saved_decipher_data.bin");
+    end = getTimeMilliSec();
+    if(result == 0){
+        printf("  [ERROR] while trying to decipher data !\n");
+    }
+    displayTime(start, end);
+//*/
+
+//*/
+
     // Restore from Binary
     printf("==================================\n");
     printf("API_restore_to_binary_file()...\n");
     start = getTimeMilliSec();
-    p2 = API_restore_from_binary_file("saved_data.bin");
+    p2 = API_restore_from_binary_file("saved_decipher_data.bin");
     if(p2 == NULL){
         printf("  [ERROR] while trying to restore data !\n");        
     }
@@ -131,8 +158,9 @@ int main(){
 
     printf("==================================\n");
     printf("API_display(p2)...\n");
-//    API_display(p2);
+    API_display_results_per_field(p2);
     printf("\n");
+    
 //*    
     // Get best students
     printf("==================================\n");

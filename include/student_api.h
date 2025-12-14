@@ -9,6 +9,8 @@
 #define AVERAGE 3
 #define MINIMUM 4
 
+#define KEYSIZE 16
+
 #define CLASS_DATA void
 
 CLASS_DATA* API_load_students(char* filePath);
@@ -21,5 +23,8 @@ char** API_get_best_students(CLASS_DATA* pClass);
 char** API_get_best_students_in_course(CLASS_DATA* pClass, char* course);
 int API_set_sorting_mode(CLASS_DATA* pClass, int mode);
 char** API_sort_students(CLASS_DATA* pClass);
+void API_display_results_per_field(CLASS_DATA* pClass);
+int API_cipher(char* pIn, char* pOut);
+int API_decipher(char* pIn, char* pOut);
 
 #endif
